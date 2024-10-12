@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+        color:greenyellow;
+        background-color: black;
+        text-align: center;
+        font-size: 40px;
+
+    }
+    button{
+        border-radius: 10px;
+        background-color: rgb(51, 51, 51);
+    }
+    </style>
+</head>
+<body>
+    <button onclick="clik()"> kliknij </button>
+    <p>TWOJE PIENIĄDZE:</p>
+    <div id="licznik">0</div>
+    <hr>
+    <button onclick="kup(Azjatyckie_Dziecko)">Kup Azjatyckie Dziecko</button>
+    <button onclick="sprzedaj(Azjatyckie_Dziecko)">Sprzedaj Azjatyckie Dziecko</button>
+    <p>ile masz azjatyckich dzieci:</p>
+    <div id="Azjatyckie_Dziecko_Ilosc">0</div>
+    <p>ile będzie kosztować następne:</p>
+    <div id="Azjatyckie_Dziecko_Koszt">10</div>
+    <hr>
+
+    <button onclick="kup(Latynoska)">Kup Latynoskę</button>
+    <button onclick="sprzedaj(Latynoska)">Sprzedaj Latynoskę</button>
+    <p>ile masz Latynosek:</p>
+    <div id="Latynoska_Ilosc">0</div>
+    <p>ile będzie kosztować następna:</p>
+    <div id="Latynoska_Koszt">50</div>
+    <hr>
+    
+    <button onclick="kup(Sklep)">Kup Sklep</button>
+    <button onclick="sprzedaj(Sklep)">Sprzedaj Sklep</button>
+    <p>ile sklepów:</p>
+    <div id="Sklep_Ilosc">0</div>
+    <p>ile będzie kosztować następny:</p>
+    <div id="Sklep_Koszt">100</div>
+    <hr>
+
+    <button onclick="kup(Tasma_Produkcyjna)">Kup Taśmę Produkcyjną</button>
+    <button onclick="sprzedaj(Tasma_Produkcyjna)">Sprzedaj Taśmę Produkcyjną</button>
+    <p>ile masz Taśm Produkcyjnych:</p>
+    <div id="Tasma_Produkcyjna_Ilosc">0</div>
+    <p>ile będzie kosztować następna:</p>
+    <div id="Tasma_Produkcyjna_Koszt">500</div>
+    <hr>
+
+    <button onclick="kup(Fabryka)">Kup Fabrykę</button>
+    <button onclick="sprzedaj(Fabryka)">Sprzedaj Fabrykę</button>
+    <p>ile masz Fabryk:</p>
+    <div id="Fabryka_Ilosc">0</div>
+    <p>ile będzie kosztować następna:</p>
+    <div id="Fabryka_Koszt">2000</div>
+    <hr>
+
+    <button onclick="kup(Biurowiec)">Kup Biurowiec</button>
+    <button onclick="sprzedaj(Biurowiec)">Sprzedaj Biurowiec</button>
+    <p>ile masz Biurowców:</p>
+    <div id="Biurowiec_Ilosc">0</div>
+    <p>ile będzie kosztować następny:</p>
+    <div id="Biurowiec_Koszt">100000</div>
+    <hr>
+ 
+    <p>wszystkie kliknięcia: <span id="wszystkieklikniecia">0</span></p>
+    <script>
+        let kasa = 0; // nasze piniążki
+        let klikniecia = 0; // wszystkie kliknięcia
+        let klik = 1;
+        let mnoznik_klikniecie = 1;
+
+        function clik()
+        {
+            kasa+=klik*mnoznik_klikniecie;
+            klikniecia++;
+            Aktualizacja_Informacji()
+        }
+        class Budynki
+        {
+            constructor(nazwa, koszt, zysk_na_sekunde, ilosc=0){
+            this.nazwa = nazwa;
+            this.koszt = koszt;
+            this.zysk_na_sekunde = zysk_na_sekunde;
+            this.ilosc = ilosc;}
+            kup()
+        {
+            if(this.koszt<=kasa)
+            {
+            this.ilosc++;
+            kasa -= this.koszt;
+            this.koszt *= (11/10);
+            Aktualizacja_Informacji()
+            }
+        }
+            sprzedaj()
+        {
+            if(this.ilosc>0)
+            {
+            this.ilosc--;
+            this.koszt/= (11/10);
+            kasa+=this.koszt;
+            Aktualizacja_Informacji()
+            }
+        }
+            zysk()
+            {
+            kasa+=this.ilosc*this.zysk_na_sekunde
+            }
+        }
+
+
+
+
+        function kup(budynek) {
+            budynek.kup();
+        }
+        function sprzedaj(budynek){
+            budynek.sprzedaj();
+        }
+
+        // Funkcja zysku ze wszystkich budynków
+        function generujzyski() {
+            ListaBudynkow.forEach(budynek => budynek.zysk());
+            Aktualizacja_Informacji();
+        }
+
+        // Ustawienie interwału co sekundę, aby dodawać zysk z budynków
+        setInterval(generujzyski, 1000);
+
+
+
+        
+        //aktualizowanie informacji
+        function Aktualizacja_Informacji() {
+            document.getElementById("licznik").innerText = Math.trunc(kasa);
+            document.getElementById("Azjatyckie_Dziecko_Ilosc").innerText = Azjatyckie_Dziecko.ilosc;
+            document.getElementById("Azjatyckie_Dziecko_Koszt").innerText = Math.trunc(Azjatyckie_Dziecko.koszt);
+
+            document.getElementById("Sklep_Ilosc").innerText = Sklep.ilosc;
+            document.getElementById("Sklep_Koszt").innerText = Math.trunc(Sklep.koszt);
+
+            document.getElementById("Tasma_Produkcyjna_Ilosc").innerText = Tasma_Produkcyjna.ilosc;
+            document.getElementById("Tasma_Produkcyjna_Koszt").innerText = Math.trunc(Tasma_Produkcyjna.koszt);
+        
+            document.getElementById("Fabryka_Ilosc").innerText = Fabryka.ilosc;
+            document.getElementById("Fabryka_Koszt").innerText = Math.trunc(Fabryka.koszt);
+
+            document.getElementById("Latynoska_Ilosc").innerText = Latynoska.ilosc;
+            document.getElementById("Latynoska_Koszt").innerText = Math.trunc(Latynoska.koszt);
+
+            document.getElementById("Biurowiec_Ilosc").innerText = Biurowiec.ilosc;
+            document.getElementById("Biurowiec_Koszt").innerText = Math.trunc(Biurowiec.koszt);
+
+            document.getElementById("wszystkieklikniecia").innerText = klikniecia;
+        }
+
+
+        //tworzenie obiektów
+        //nazwa, koszt, zysk na sekunde
+        let Azjatyckie_Dziecko = new Budynki("Azjatyckie Dziecko", 10, 0.1 )
+        let Latynoska = new Budynki("Latynoska,", 50, 0.5)
+        let Sklep = new Budynki("Sklep", 100, 5)
+        let Tasma_Produkcyjna = new Budynki("Taśma Produkcyjna", 500, 30)
+        let Fabryka = new Budynki("Fabryka Rowerów", 2000, 150)
+        let Biurowiec = new Budynki("Biurowiec", 100000,1500)
+
+        //tablica wszystkich budynków
+        let ListaBudynkow = [Azjatyckie_Dziecko, Latynoska, Sklep, Tasma_Produkcyjna, Fabryka, Biurowiec ]
+    </script>
+</body>
+</html>

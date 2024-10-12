@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klikacz!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #2f95c4;
+        }
+
+        button {
+            background-color: #007BFF; /* Niebieski kolor */
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Ciemniejszy odcień niebieskiego */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            background-color: #00408d; /* Jeszcze ciemniejszy odcień niebieskiego */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+        }
+
+        div {
+            font-size: 24px;
+            margin: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+    <script>
+        let x = 0;
+        let y = 1;
+        let iloscklikniec = 0;
+        function klik() {
+            x += y;
+            document.getElementById("licznik").innerText = x;
+            iloscklikniec++;
+            document.getElementById("klikniecia").innerText = iloscklikniec;
+        }
+
+        function ulepszenie() {
+            if (x >= y*y*0.5) {
+                x-=y*y*0.5;
+                y++;
+                document.getElementById("licznik").innerText=x;
+                document.getElementById("ilosculepszen").innerText = y;
+                document.getElementById("kosztulepszenia").innerText=y*y*0.5;
+            }
+        }
+    </script>
+</head>
+<body>
+    <table style="margin-right: 15px;">
+        <tbody></tbody>
+    </table>
+    <button onclick="klik()">Kliknij mnie</button>
+    <div id="licznik">0</div>
+    <button onclick="ulepszenie()">Ulepsz klikanie</button>
+    <div id="ilosculepszen">1</div>
+    <p>koszty ulepszenia:</p>
+    <div id="kosztulepszenia">0.5</div>
+    <p>ilość kliknięć:</p>
+    <div id="klikniecia">0</div>
+    
+</body>
+</html>

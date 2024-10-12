@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+        color:greenyellow;
+        background-color: black;
+        text-align: center;
+        font-size: 40px;
+
+    }
+    button{
+        border-radius: 10px;
+        background-color: rgb(51, 51, 51);
+    }
+    .siateczka {
+        display: grid;
+        grid-gap: 10px;
+    }
+    </style>
+</head>
+<body>
+    <button onclick="clik()"> kliknij </button>
+    <p>TWOJE PIENIĄDZE:</p>
+    <div id="licznik">0</div>
+    <hr>
+    <div class="siateczka" id="grid" onclick="kup()"></div>
+ 
+    <p>wszystkie kliknięcia: <span id="wszystkieklikniecia">0</span></p>
+    <script>
+        let kasa = 0; // nasze piniążki
+        let klikniecia = 0; // wszystkie kliknięcia
+        let klik = 1;
+        let mnoznik_klikniecie = 1;
+
+        function clik()
+        {
+            kasa+=klik*mnoznik_klikniecie;
+            klikniecia++;
+            Aktualizacja_Informacji()
+        }
+        class Budynki
+        {
+            constructor(nazwa, koszt, zysk_na_sekunde, zysk_na_koszt = zysk_na_sekunde/ koszt, ilosc=0){
+            this.nazwa = nazwa;
+            this.koszt = koszt;
+            this.zysk_na_sekunde = zysk_na_sekunde;
+            this.zysk_na_koszt = zysk_na_koszt;
+            this.ilosc = ilosc;
+            this.DodanieKafelkaDoGrid();}
+            kup() {
+                if (this.koszt <= kasa) {
+                    this.ilosc++;
+                    kasa -= this.koszt;
+                    this.koszt *= (11 / 10);
+                    this.zysk_na_koszt = this.zysk_na_sekunde / this.koszt;
+
+                    document.getElementById(`ilosc-${this.nazwa}`).innerText = this.ilosc;
+                    document.getElementById(`koszt-${this.nazwa}`).innerText = Math.trunc(this.koszt);
+                    document.getElementById(`zyskNaKoszt-${this.nazwa}`).innerText = this.zysk_na_koszt.toFixed(5);
+
+                    Aktualizacja_Informacji();
+                }
+            }
+            sprzedaj() {
+                if (this.ilosc > 0) {
+                    this.ilosc--;
+                    kasa += this.koszt;
+                    this.koszt /= (11 / 10);
+                    this.zysk_na_koszt = this.zysk_na_sekunde / this.koszt;
+
+                    document.getElementById(`ilosc-${this.nazwa}`).innerText = this.ilosc;
+                    document.getElementById(`koszt-${this.nazwa}`).innerText = Math.trunc(this.koszt);
+                    document.getElementById(`zyskNaKoszt-${this.nazwa}`).innerText = this.zysk_na_koszt.toFixed(5);
+
+                    Aktualizacja_Informacji();
+                }
+            }
+
+            zysk()
+            {
+            kasa+=this.ilosc*this.zysk_na_sekunde
+            }
+
+            DodanieKafelkaDoGrid(){
+            let grid = document.getElementById("grid");
+            let tileElement = document.createElement("div");
+            tileElement.className = "tile";
+            tileElement.innerHTML = `<br><strong>${this.nazwa}</strong><br>
+            posiadasz: <span id="ilosc-${this.nazwa}">${this.ilosc}</span><br>
+            <button onclick="kup('${this.nazwa}')">Kup</button>
+            <button onclick="sprzedaj('${this.nazwa}')">Sprzedaj</button>
+            Koszt: <span id="koszt-${this.nazwa}">${Math.trunc(this.koszt)}</span><br>
+            Zysk na koszt: <span id="zyskNaKoszt-${this.nazwa}">${this.zysk_na_koszt.toFixed(5)}</span><br>`;
+
+            grid.appendChild(tileElement);
+        }
+        }
+
+
+
+
+        function kup(nazwaBudynku)
+        {
+        let budynek = ListaBudynkow.find(b => b.nazwa === nazwaBudynku);
+        if (budynek) budynek.kup();
+        }
+
+        function sprzedaj(nazwaBudynku)
+        {
+        let budynek = ListaBudynkow.find(b => b.nazwa === nazwaBudynku);
+        if (budynek) budynek.sprzedaj();
+        }
+
+        // Funkcja zysku ze wszystkich budynków
+        function generujzyski() {
+            ListaBudynkow.forEach(budynek => budynek.zysk());
+            Aktualizacja_Informacji();
+        }
+
+        // Ustawienie interwału co sekundę, aby dodawać zysk z budynków
+        setInterval(generujzyski, 1000);
+
+
+
+        
+        //aktualizowanie informacji
+        function Aktualizacja_Informacji() {
+            document.getElementById("licznik").innerText = Math.trunc(kasa);
+            document.getElementById("wszystkieklikniecia").innerText = klikniecia;
+
+            
+        }
+
+
+        //tworzenie obiektów
+        //nazwa, koszt, zysk na sekunde
+        let Azjatyckie_Dziecko = new Budynki("Azjatyckie Dziecko", 10, 0.1 )
+        let Latynoska = new Budynki("Latynoska", 50, 0.5 )
+        let Meksykaniec_Skoczek = new Budynki("Meksykaniec Skoczek", 100, 5 )
+        let Sklep = new Budynki("Sklep", 500, 30 )
+        let Diddy_Party_Manager = new Budynki("Diddy Party Manager", 2000, 150 )
+        let Tasma_Produkcyjna = new Budynki("Taśma Produkcyjna", 100000, 15000 )
+        let Fabryka = new Budynki("Fabryka Rowerów", 500000 , 100000 )
+        let Specjalny_Sklad = new Budynki("Specjalny Skład Wojowników", 1000000, 200000 )
+        let Biurowiec = new Budynki("Biurowiec", 5000000 , 4000000 )
+        let Baby_Oil_Magazyn = new Budynki("Baby Oil Magazyn", 10000000 , 6000000 )
+        let CLB_Team = new Budynki("CLB Team", 1000000000, 10000000 )
+
+
+        //tablica wszystkich budynków
+        let ListaBudynkow = [Azjatyckie_Dziecko, Latynoska, Meksykaniec_Skoczek, Sklep, Diddy_Party_Manager, Tasma_Produkcyjna, Fabryka, Specjalny_Sklad, Biurowiec, Baby_Oil_Magazyn, CLB_Team ]
+    </script>
+</body>
+</html>

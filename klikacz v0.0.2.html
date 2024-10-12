@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="clik()"> kliknij </button>
+    <div id="licznik">0</div>
+    <br>
+    <hr>
+    <button onclick="ak_kup()"> kup azjatyckie dziecko</button>
+    <div id="ilosc_ak">0</div>
+    <script>
+        let kasa = 0; // nasze piniążki
+        let klikniecia = 0; // wszystkie kliknięcia
+        let klik = 1;
+        
+        let azja_kids = 0; // zwinne paluszki dobre w produkcji rowerów
+        let azja_kids_koszt = 10;
+        /*
+        let fabryki = 0; // masowa produkcja rowerów, w każdej fabryce jest 10 dzieci
+        let gambler = 0; // twój stary na automatach wygrywa rowerki */
+        function clik()
+        {
+            kasa+=klik;
+            document.getElementById("licznik").innerText = Math.trunc(kasa);
+            
+        }
+        function ak_kup()
+        {
+            if(azja_kids_koszt<=kasa)
+            {
+            azja_kids++;
+            kasa -= azja_kids_koszt;
+            document.getElementById("ilosc_ak").innerText = azja_kids;
+            document.getElementById("licznik").innerText = Math.trunc(kasa);
+            azja_kids_koszt *= 1.1
+            }
+        }
+    </script>
+</body>
+</html>

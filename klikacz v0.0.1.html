@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drugiklikocz</title>
+</head>
+<body>
+    <button onclick="klikniecie()"> Zrób rower!</button>
+    <div id="licznik"> 0 </div>
+    <button onclick="ulepsz()">Zakup Fabryke</button>
+    <div id="poziom1">0</div>
+    <div>Kliknięcia do tego momentu : <span id="wszystkie_klikniecia">0</span></div>
+    <button onclick="ulepszenie1.ulepsz()">Zakup Fabrykę</button>
+    <div>Poziom Fabryki: <span id="poziom1">0</span></div>
+    <div>Koszt Fabryki: <span id="koszt_ul1">100</span></div>
+
+    <div>Twoja kasa: <span id="licznik">0</span></div>
+
+
+    <script>
+        /*
+        //dajemy podstawowe wartosci dla klikania i zyskow
+    let kasa = 0;
+    let kasazaklikniecie = 1;
+    let mnoznik_klikniecie = 1;
+    let mnoznik_ogolny = 1;
+    let iloscklikniec = 0;
+    const sekunda = 1000;
+    let zdobyta_kasa = 0;
+    let kasa_co_sek = zysk_ulepsz_1; //tu daj łosinko moja wszystkie zyski z ulepszeń
+        //podstawowe wartosci pierwszego ulepszenia
+    let ilosc_ulepsz_1 = 0;
+    let mnoznik_ulepsz_1 = 1;
+    let koszty_ulepsz_1 = 10 * (1.1 ** ilosc_ulepsz_1);
+    let zysk_ulepsz_1 = 0.1;
+
+        //funkcja która przez kliknięcie zmienia wartości "kasa" oraz "ilosc klikniec" 
+    function klikniecie(){
+        iloscklikniec ++;
+        kasa += (kasazaklikniecie * mnoznik_ogolny * mnoznik_klikniecie);
+        zdobyta_kasa += (kasazaklikniecie * mnoznik_ogolny * mnoznik_klikniecie);
+        document.getElementById("licznik").innerText = kasa;
+        document.getElementById("wszystkie klikniecia").innerText = iloscklikniec;
+        document.getElementById("cala zdobyta kasa").innerText = zdobyta_kasa;
+    }
+
+        //funkcja zakupu pierwszego ulepszenia
+    function zakup_ulepsz_1(){
+        if(koszty_ulepsz_1<=kasa){
+            kasa-=koszty_ulepsz_1;
+            ilosc_ulepsz_1++;
+            document.getElementById("ile_ulepszen_1").innerText = ilosc_ulepsz_1;
+            document.getElementById("koszt_ul_1").innerText = koszty_ulepsz_1;
+            zysk_ulepsz_1 *= ilosc_ulepsz_1
+        }
+
+    }
+            //funkcja zysku co sekunde ulepszenia
+    setInterval(() =>{
+        kasa += kasa_co_sek
+        document.getElementById("licznik").innerText = kasa;
+    }, sekunda)
+
+        <div id="licznik">0</div>
+    <button onclick="klikniecie()">/=$=\</button>
+    <br>
+    <button onclick="zakup_ulepsz_1()">kup Garaż!</button>
+    <div id="ile_ulepszen_1">0</div>
+
+
+        */ 
+    let kasa = 0;
+    let kasazaklikniecie = 1;
+    let mnoznik_klikniecie = 1;
+    let mnoznik_ogolny = 1;
+    let iloscklikniec = 0;
+    const sekunda = 1000;
+    let zdobyta_kasa = 0;
+    let kasa_co_sek
+
+    klikniecie(){
+        kasa += kasazaklikniecie * mnoznik_klikniecie * mnoznik_ogolny;
+        iloscklikniec++
+        document.getElementById("wszystkie_klikniecia").innerText = iloscklikniec;
+            document.getElementById("licznik").innerText = kasa.toFixed(2);
+    }
+    class Ulepszenia{
+        constructor(nazwa, koszt, pns, poziom=0, mnoznik)
+            this.nazwa = nazwa;
+            this.koszt = koszt;
+            this.pns = pns;
+            this.poziom = poziom;
+            this.mnoznik = mnoznik;
+    }
+    ulepsz(){
+        if(this.koszt<=kasa){
+        this.poziom++;
+        this.koszt *= 1.1 ** this.poziom;
+        kasa-=this.koszt;
+        kasa_co_sek += this.pns * this.mnoznik;
+        document.getElementById("licznik").innerText=kasa.toFixed(2);
+        document.getElementById("koszt_ul1").innerText=this.koszt.toFixed(2);
+        document.getElementById("poziom1").innerText=this.poziom;
+    }else{
+        alert("za mało kasy!")
+    }
+    }
+    setInterval(() =>{
+        kasa += kasa_co_sek
+        document.getElementById("licznik").innerText = kasa;
+    }, sekunda)
+    </script>
+</body>
+</html>

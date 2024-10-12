@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="clik()"> kliknij </button>
+    <div id="licznik">0</div>
+    <br>
+    <hr>
+    <br>
+    <button onclick="kup(Azjatyckie_Dziecko)">Kup Azjatyckie Dziecko</button>
+    <div id="Azjatyckie_Dziecko_Ilosc">0</div>
+    <br>
+    <hr>
+    <br>
+    <div id="Fabryka_Ilosc">0</div>
+    <button onclick="kup(Fabryka)">Kup Fabrykę</button>
+ 
+    <p>wszystkie kliknięcia: <span id="wszystkieklikniecia">0</span></p>
+    <script>
+        let kasa = 0; // nasze piniążki
+        let klikniecia = 0; // wszystkie kliknięcia
+        let klik = 1;
+        let mnoznik_klikniecie = 1;
+
+        function clik()
+        {
+            kasa+=klik*mnoznik_klikniecie;
+            klikniecia++;
+            Aktualizacja_Informacji()
+        }
+        class Budynki
+        {
+            constructor(nazwa, koszt, zysk_na_sekunde, ilosc=0){
+            this.nazwa = nazwa;
+            this.koszt = koszt;
+            this.zysk_na_sekunde = zysk_na_sekunde;
+            this.ilosc = ilosc;}
+            kup()
+        {
+            if(this.koszt<=kasa)
+            {
+            this.ilosc++;
+            kasa -= this.koszt;
+            this.koszt *= (11/10);
+            Aktualizacja_Informacji()
+            }
+        }
+            sprzedaj()
+        {
+            if(this.ilosc>0)
+            {
+            this.ilosc--;
+            this.koszt/= (11/10);
+            kasa+=this.koszt;
+            Aktualizacja_Informacji()
+            }
+        }
+            zysk()
+            {
+            kasa+=this.ilosc*this.zysk_na_sekunde
+            }
+        }
+
+
+
+
+        function kup(budynek) {
+            budynek.kup();
+        }
+
+        // Funkcja zysku ze wszystkich budynków
+        function generujzyski() {
+            ListaBudynkow.forEach(budynek => budynek.zysk());
+            Aktualizacja_Informacji();
+        }
+
+        // Ustawienie interwału co sekundę, aby dodawać zysk z budynków
+        setInterval(generujzyski, 1000);
+
+
+
+        
+        //aktualizowanie informacji
+        function Aktualizacja_Informacji() {
+            document.getElementById("licznik").innerText = Math.trunc(kasa);
+            document.getElementById("Azjatyckie_Dziecko_Ilosc").innerText = Azjatyckie_Dziecko.ilosc;
+            document.getElementById("Fabryka_Ilosc").innerText = Fabryka.ilosc;
+            document.getElementById("wszystkieklikniecia").innerText = klikniecia;
+        }
+
+
+        //tworzenie obiektów
+        //nazwa, koszt, zysk na sekunde
+        let Azjatyckie_Dziecko = new Budynki("Azjatyckie Dziecko", 10, 0.1 )
+        let Fabryka = new Budynki("Fabryka Rowerów", 300, 10)
+
+
+        //tablica wszystkich budynków
+        let ListaBudynkow = [Azjatyckie_Dziecko, Fabryka ]
+    </script>
+</body>
+</html>
